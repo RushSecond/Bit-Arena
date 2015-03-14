@@ -1,0 +1,39 @@
+////////////////////////////////////////////////////////////////////////////////
+// Filename: texture.ps
+////////////////////////////////////////////////////////////////////////////////
+
+/////////////
+// GLOBALS //
+/////////////
+Texture2D shaderTexture;
+SamplerState SampleType;
+
+//////////////
+// TYPEDEFS //
+//////////////
+struct PixelInputType
+{
+    float4 position : SV_POSITION;
+    float2 tex : TEXCOORD0;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// Pixel Shader
+////////////////////////////////////////////////////////////////////////////////
+float4 TexturePixelShader(PixelInputType input) : SV_TARGET
+{
+    float4 textureColor;
+	float4 transparentColor = float4(1,0,1,1);
+
+    // Sample the pixel color from the texture using the sampler at this texture coordinate location.
+    textureColor = shaderTexture.Sample(SampleType, input.tex);
+
+	float4 difference = textureColor - transparentColor;
+	if (any(difference))
+	{
+		return textureColor;
+	}
+
+	return float4(0,0,0,0);
+    
+}

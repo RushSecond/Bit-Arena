@@ -1,0 +1,41 @@
+// FpsClass.cpp
+// From http://web.archive.org/web/20140213145557/http://rastertek.com/tutdx11.html
+
+#include "stdafx.h"
+#include "FpsClass.h"
+
+
+FpsClass::FpsClass(void)
+{
+}
+
+
+FpsClass::~FpsClass(void)
+{
+}
+
+void FpsClass::Initialize()
+{
+	m_fps = 0;
+	m_count = 0;
+	m_startTime = timeGetTime();
+	return;
+}
+
+void FpsClass::Frame()
+{
+	m_count++;
+
+	if(timeGetTime() >= (m_startTime + 1000))
+	{
+		m_fps = m_count;
+		m_count = 0;
+		
+		m_startTime = timeGetTime();
+	}
+}
+
+int FpsClass::GetFps()
+{
+	return m_fps;
+}
